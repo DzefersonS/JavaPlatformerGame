@@ -28,11 +28,11 @@ public class AnimationImporter {
     public AnimationContainer[] initializePlayerAtlasContainers() {
         int temp, x, y, w, h, offsetX, offsetY;
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-        animations = new AnimationContainer[25];
+        animations = new AnimationContainer[17];
         try {
             aniData = new File("res/spriteData.txt");
             Scanner readAniData = new Scanner(aniData);
-            for(int i = 0; i < 17; ++i) {
+            for(int i = 0; i < animations.length; ++i) {
                 temp = readAniData.nextInt();
                 System.out.println("temp = " + temp);
                 animations[i] = new AnimationContainer(temp);

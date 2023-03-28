@@ -54,14 +54,10 @@ public class HelpMethods {
 
     public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle hitbox, float airSpeed) {
         int currentTile = hitbox.y / Game.TILES_SIZE;
-        System.out.println("HITBOX Y = " + hitbox.y);
         if(airSpeed > 0) {
             //Falling
             int tileYPos = currentTile * Game.TILES_SIZE;
-            System.out.println("TILE Y POS = " + tileYPos);
             int yOffset = Game.TILES_SIZE - hitbox.height;
-            System.out.println("YOFFSET = " + yOffset);
-            System.out.println("AAAAA");
             return tileYPos - yOffset + (int) (19.5 * Game.SCALE);
         } else {
             //Jumping

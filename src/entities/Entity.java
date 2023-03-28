@@ -23,7 +23,7 @@ public abstract class Entity { //abstract - negalima sukurti Entity objekto
     }
 
     private void initHitbox() {
-        hitbox = new Rectangle((int) x, (int) y, width, height);
+        hitbox = new Rectangle((int) x, (int) y, (int) width, (int) height);
     }
 
     protected void updateHitbox() {
