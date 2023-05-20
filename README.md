@@ -1,6 +1,5 @@
 # JavaPlatformerGame
 
-# Platformer žaidimas
 ## Purpose
 A game where the player must fight against monsters to survive and reach the goal.
 ## Launch
