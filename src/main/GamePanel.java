@@ -1,17 +1,10 @@
 package main;
 
-import visuals.*;
-
-import static utils.Constants.PlayerConstants.*;
-import static utils.Constants.Directions.*;
-
 import inputs.KeyboardInputs;
 import inputs.MouseInputs;
-import visuals.AnimationImporter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static main.Game.GAME_HEIGHT;
 import static main.Game.GAME_WIDTH;

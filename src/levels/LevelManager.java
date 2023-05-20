@@ -1,10 +1,12 @@
 package levels;
 
+import gamestates.Gamestate;
 import main.Game;
 import utils.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static main.Game.TILES_SIZE;
 
@@ -12,12 +14,36 @@ public class LevelManager {
 
     private Game game;
     private BufferedImage[] levelSprite;
-    private Level levelOne;
+    private ArrayList<Level> levels;
+    private int levelIndex = 0;
     public LevelManager(Game game) {
         this.game = game;
 //        levelSprite = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
         importOutsideSprites();
-        levelOne = new Level(LoadSave.GetLevelData());
+        levels = new ArrayList<>();
+        buildAllLevels();
+    }
+
+    public void loadNextLevel() {
+        levelIndex++;
+        if(levelIndex >= levels.size()) {
+            levelIndex = 0;
+            System.out.println("no more levels lol");
+            Gamestate.state = Gamestate.MENU;
+        }
+
+        Level newLevel = levels.get(levelIndex);
+        game.getPlaying().getEnemyManager().loadEnemies(newLevel);
+        game.getPlaying().getPlayer().loadLvlData(newLevel.getLevelData());
+        game.getPlaying().setMaxLvlOffsetX(newLevel.getMaxLvlOffsetX());
+        game.getPlaying().getObjectManager().loadObjects(newLevel);
+    }
+
+    private void buildAllLevels() {
+        BufferedImage[] allLevels = LoadSave.GetAllLevels();
+        for(BufferedImage img : allLevels) {
+            levels.add(new Level(img, game));
+        }
     }
 
     private void importOutsideSprites() {
@@ -31,11 +57,11 @@ public class LevelManager {
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int lvlOffset) {
         for(int i = 0; i < Game.TILES_IN_HEIGHT; ++i) {
-            for(int j = 0; j < Game.TILES_IN_WIDTH; ++j) {
-                int index = levelOne.getSpriteIndex(j, i);
-                g.drawImage(levelSprite[index], TILES_SIZE*j, TILES_SIZE*i, TILES_SIZE, TILES_SIZE, null);
+            for(int j = 0; j < levels.get(levelIndex).getLevelData()[0].length; ++j) {
+                int index = levels.get(levelIndex).getSpriteIndex(j, i);
+                g.drawImage(levelSprite[index], TILES_SIZE*j - lvlOffset, TILES_SIZE*i, TILES_SIZE, TILES_SIZE, null);
             }
         }
     }
@@ -45,7 +71,11 @@ public class LevelManager {
     }
 
     public Level getCurrentLevel() {
-        return levelOne;
+        return levels.get(levelIndex);
+    }
+
+    public int getLevelCount() {
+        return levels.size();
     }
 
 }

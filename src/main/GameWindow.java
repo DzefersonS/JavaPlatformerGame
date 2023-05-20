@@ -14,9 +14,9 @@ public class GameWindow extends JFrame {
         jframe = new JFrame();
         jframe.setDefaultCloseOperation(EXIT_ON_CLOSE);
         jframe.add(gamePanel);
-        jframe.setLocationRelativeTo(null); //window starts in center of screen
         jframe.setResizable(false);
         jframe.pack(); //fit window size to pref size
+        jframe.setLocationRelativeTo(null); //window starts in center of screen
         jframe.setVisible(true);
         jframe.addWindowFocusListener(new WindowFocusListener() {
             @Override

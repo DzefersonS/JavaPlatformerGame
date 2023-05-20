@@ -1,8 +1,12 @@
 package main;
 
+import audio.AudioPlayer;
+import gamestates.GameOptions;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import gamestates.Menu;
+import ui.AudioOptions;
+import utils.LoadSave;
 
 import java.awt.Graphics;
 
@@ -15,9 +19,13 @@ public class Game implements Runnable {
 
     private Playing playing;
     private Menu menu;
+    private GameOptions gameOptions;
+    private AudioOptions audioOptions;
+    private AudioPlayer audioPlayer;
 
     public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 2.0f;
+
+    public final static float SCALE = 1.5f;
     public final static int TILES_IN_WIDTH = 26;
     public final static int TILES_IN_HEIGHT = 14;
     public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE*SCALE);
@@ -30,15 +38,18 @@ public class Game implements Runnable {
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.setFocusable(true);
-        gamePanel.requestFocus();
+        gamePanel.requestFocusInWindow();
 
         startGameLoop();
 
     }
 
     private void initClasses() {
+        audioOptions = new AudioOptions(this);
+        audioPlayer = new AudioPlayer();
         menu = new Menu(this);
         playing = new Playing(this);
+        gameOptions = new GameOptions(this);
     }
 
     private void startGameLoop() {
@@ -55,6 +66,8 @@ public class Game implements Runnable {
                 playing.update();
                 break;
             case OPTIONS:
+                gameOptions.update();
+                break;
             case QUIT:
             default:
                 System.exit(0);
@@ -69,6 +82,9 @@ public class Game implements Runnable {
                 break;
             case PLAYING:
                 playing.draw(g);
+                break;
+            case OPTIONS:
+                gameOptions.draw(g);
                 break;
             default:
                 break;
@@ -132,6 +148,18 @@ public class Game implements Runnable {
 
     public Playing getPlaying() {
         return playing;
+    }
+
+    public GameOptions getGameOptions() {
+        return gameOptions;
+    }
+
+    public AudioOptions getAudioOptions() {
+        return audioOptions;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
     }
 
 }
